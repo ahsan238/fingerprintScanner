@@ -1,0 +1,42 @@
+extends layout
+
+block content
+
+
+    h6(id='hashValue', class='my-2')
+    h6(id='timeTaken', class='my-2')
+
+
+    form(action='./addFingerprint' method='POST' class='form-registration', name='fingerprint-form')
+        div(class='row my-3')
+        
+            div(class='col-md-8')
+            input(class="form-control form-control-sm" type="text" name='email', placeholder="Enter your email here..." )
+            div(class='col-md-8')
+            input(class="form-control form-control-sm" type="text" name='description', placeholder="Enter a brief description about your device (e.g. Macbook M1 Chrome)" )
+            div(class='col-md-8')
+            input(class="form-control form-control-sm" type="hidden" name='fingerprint' )
+            div(class='col-md-8')
+            input(class="form-control form-control-sm" type="hidden" name='fpHash' )
+            div(class='col-md-8')
+            button(class='btn btn-success btn-sm' type='submit') Add Fingerprint
+    
+    pre(id='fingerPrint', class='my-2')
+
+    script(src="/src/fp_scanner.js") 
+    script(src="/src/md5.js") 
+    script.
+        const a = performance.now()
+        console.log("hello")
+        generateFingerprint().then((fp)=>{
+            const resultString = JSON.stringify(fp, null, 2)
+            const fp_hash = md5(resultString)
+            const b = performance.now()
+            const c = b - a
+            console.log(resultString)
+            document.getElementById("hashValue").innerText = "Your FP Hash: \n" + fp_hash
+            document.getElementById("timeTaken").innerText = "Time taken: " + c.toString() + " ms"
+            document.getElementById("fingerPrint").innerText = resultString
+            document.forms['fingerprint-form']['fpHash'].value = fp_hash
+            document.forms['fingerprint-form']['fingerprint'].value = resultString
+        })

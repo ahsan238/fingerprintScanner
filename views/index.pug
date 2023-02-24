@@ -1,0 +1,46 @@
+extends layout
+
+block content
+
+  //- form(action='./addTask' method='POST' class='form-registration')
+  //-   div(class='row my-3')
+  //-       div(class='col-md-2 align-bottom')
+  //-         label(for="taskName" class='fs-5') New task
+  //-       div(class='col-md-8')
+  //-         input(class="form-control form-control-sm" type="text" name='taskName', placeholder="Enter new task here" )
+  //-       div(class='col-md-2 text-end')
+  //-         button(class='btn btn-success btn-sm' type='submit') Add task
+
+
+  h5(class='my-2') Current Fingerprints
+
+  div(class='row mb-3 border-bottom border-3')
+    div(class='col-md-5 fw-bold') Hash
+    div(class='col-sm-3 fw-bold') User
+    div(class='col-sm-2 fw-bold') Description
+    div(class='col-sm-2 fw-bold') Date
+
+  each fp in currentFingerprints
+    div(class='row mb-2')
+      div(class='col-md-5') #{fp.hashvalue}
+      div(class='col-sm-3') #{fp.email}
+      div(class='col-sm-2') #{fp.description}
+      div(class='col-sm-2') #{format(fp.createDate, "yyyy-MM-dd")}
+        //- form(action='./completeTask' method='POST' class='form-registration')
+        //-   input(type='hidden' name='_id' value=`${task._id}`)
+        //-   button(class='btn btn-primary btn-sm mx-1' type='submit') Complete
+      div(class='col-sm-2')
+        form(action='./deleteFingerprint' method='POST' class='form-registration')
+          input(type='hidden' name='_id' value=`${fp._id}`)
+          button(class='btn btn-danger btn-sm mx-1') Delete
+
+  //- h5(class='my-2') Completed tasks
+  //- div(class='row mb-3 border-bottom border-3')
+  //-   div(class='col-sm-8 fw-bold') Task
+  //-   div(class='col-sm-2 fw-bold') Created
+  //-   div(class='col-sm-2 fw-bold') Completed
+  //- each task in completedTasks
+  //-   div(class='row mb-3')
+  //-     div(class='col-sm-8') #{task.taskName}
+  //-     div(class='col-sm-2') #{format(task.createDate, "yyyy-MM-dd")}
+  //-     div(class='col-sm-2') #{format(task.completedDate, "yyyy-MM-dd")}
